@@ -32,7 +32,11 @@ public class Storage {
         map.get(new Point(a,b)).add(p);
         p.setCoordinates(a,b,map.get(new Point(a,b)).indexOf(p));
         p.setMoves(+1);
+        Comparator<Package> byPriority = Comparator.comparing(Package::getPriority);
+        map.get(new Point(a,b)).sort(byPriority);
     }
+
+
 
 
     public void getPackageById(int n) {
@@ -64,5 +68,8 @@ public class Storage {
             p.getHistoryOfMoves().get(i).textCoordinates();
         }
     }
+    public ArrayList<Package> getListFromPoint(int a, int b){
+        return map.get(new Point(a,b));
 
+    }
 }
