@@ -1,5 +1,4 @@
 package pack;
-
 import java.util.Date;
 
 public interface UnitInterface {
@@ -14,6 +13,6 @@ public interface UnitInterface {
     public int getNumber();
     public int getPriority();
     public TypesOfPackage getType();
-     void setType(TypesOfPackage e);
+    void setType(TypesOfPackage e);
      public void textPackageInfo();
 }

@@ -1,7 +1,6 @@
-
-import pack.UnitInterface;
 import java.awt.*;
 import java.util.*;
+import pack.Package;
 
 
 public class Storage {
@@ -9,14 +8,13 @@ public class Storage {
     private int x;
     private int y;
     private int z;
-    private Map<Point, ArrayList<UnitInterface>> map= new HashMap<>();
-
-
+    private Map<Point, ArrayList<Package>> map;
 
     private Storage(int x,int y, int z) {
             this.x=x;
             this.y=y;
             this.z=z;
+            this.map=new HashMap<>();
     }
 
     public static Storage getInstance(int x, int y, int z){
@@ -29,10 +27,11 @@ public class Storage {
                 } } }return instance;
     }
 
-    public  void setPackage(int a, int b, UnitInterface p)
+    public  void setPackage(int a, int b, Package p)
     {
-        p.setDate(new Date());
         map.get(new Point(a,b)).add(p);
+        p.setCoordinates(a,b,map.get(new Point(a,b)).indexOf(p));
+        p.setMoves(+1);
     }
 
 
@@ -46,5 +45,24 @@ public class Storage {
                        found=true;
                    }
                 }}} if(found==false)System.out.print("\nNie znaleziono paczki o podanym id");}
+
+    public Package returnPackageById(int n) {
+        Package p=null;
+        for(int i=1;i<=instance.x;i++){
+            for(int j=1;j<instance.y;j++) {
+                for(int k=0;k<instance.map.get(new Point(i, j)).size();k++){
+                    if(instance.map.get(new Point(i, j)).get(k).getNumber()==n){
+                        p= instance.map.get(new Point(i, j)).get(k);
+                    }
+                }}} return p;}
+
+    public void getHistoryOfOnePackage(int n){
+        Package p=returnPackageById(n);
+        System.out.print("\nHISTORY OF MOVES OF PACKAGE NR"+n+": ");
+        for(int i=0;i<p.getHistoryOfMoves().size();i++) {
+           System.out.print("\n "+i+": ");
+            p.getHistoryOfMoves().get(i).textCoordinates();
+        }
+    }
 
 }
