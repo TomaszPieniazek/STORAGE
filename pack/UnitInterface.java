@@ -14,5 +14,4 @@ public interface UnitInterface {
     public int getPriority();
     public TypesOfPackage getType();
     void setType(TypesOfPackage e);
-     public void textPackageInfo();
 }

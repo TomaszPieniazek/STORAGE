@@ -86,13 +86,20 @@ public class Package implements UnitInterface {
     }
 
     @Override
-    public void textPackageInfo() {
-        System.out.print("\nType: "+this.getType()+"\nNumber: "+this.getNumber()+
-                "\nDescription: "+this.getDescription()+"\nPriority: "+this.getPriority()+
-                "\nCreate date: "+this.getDate()+"\nCount of moves: "+this.getMoves()+
-                "\nCoordinates: "+this.getCoordniates().getW()+","+this.getCoordniates().getL()+","+this.getCoordniates().getH());
-
+    public String toString() {
+        return "\nPackage{" +
+                "\ntype=" + type +
+                ", \ndescription='" + description + '\'' +
+                ", \ncountOfMoves=" + countOfMoves +
+                ", \naddedDate=" + addedDate +
+                ", \nnumber=" + number +
+                ", \npriority=" + priority +
+                ", \ncords=" + cords.toString() +
+                ", \nhistoryOfMoves=" + historyOfMoves +
+                '}';
     }
+
+
     public void setCoordinates(int x, int y, int z){
         this.cords= new Coordinates(x,y,z);
         this.setHistoryOfMoves(this.cords);

@@ -17,6 +17,15 @@ public class Coordinates {
         this.h = h;
     }
 
+    @Override
+    public String toString() {
+        return "Coordinates{" +
+                "w=" + w +
+                ", l=" + l +
+                ", h=" + h +
+                '}';
+    }
+
     public int getW() {
         return w;
     }
