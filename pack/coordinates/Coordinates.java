@@ -5,18 +5,38 @@ public class Coordinates {
     private int l;
     private int h;
 
+    /*
+     *Constructor with 3 parameters: w-width, l-length, h-height
+     */
     public Coordinates(int w, int l, int h) {
-        this.w=w;
+        this.w = w;
         this.l = l;
         this.h = h;
     }
 
+    /*
+     *Set new coordinates: w-width, l-length, h-height
+     */
     public void setCoordinatesWLH(int w,int l, int h){
         this.w = w;
         this.l = l;
         this.h = h;
     }
 
+    /*
+     *checks if Coordinates are not wrong  -> {-1,-1,-1}
+     */
+    public boolean areCordsProper(){
+        boolean check=true;
+        if(this.w == -1){
+            check=false;
+        }
+        return check;
+    }
+
+    /*
+     *toString method
+     */
     @Override
     public String toString() {
         return "Coordinates{" +
@@ -26,6 +46,9 @@ public class Coordinates {
                 '}';
     }
 
+    /*
+     *get methods
+     */
     public int getW() {
         return w;
     }
@@ -34,10 +57,5 @@ public class Coordinates {
         return l;
     }
 
-    public int getH() {
-        return h;
-    }
-    public void textCoordinates(){
-        System.out.print(this.getW()+","+this.getL()+","+this.getH());
-    }
+    public int getH() { return h; }
 }
