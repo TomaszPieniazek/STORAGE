@@ -1,5 +1,6 @@
-package pack;
-import pack.coordinates.Coordinates;
+package Storage.pack;
+
+import Storage.pack.coordinates.Coordinates;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -13,7 +14,7 @@ public class Package implements UnitInterface {
     private Coordinates cords;
     private ArrayList<Coordinates> historyOfMoves;
 
-    public Package(TypesOfPackage t, String description,  int number, int priority) {
+    public Package(TypesOfPackage t, String description, int number, int priority) {
         this.type=t;
         this.description = description;
         this.addedDate = new Date();
@@ -106,7 +107,7 @@ public class Package implements UnitInterface {
         return this.cords;
     }
 
-    public void setHistoryOfMoves(Coordinates c) {
+    private void setHistoryOfMoves(Coordinates c) {
         this.historyOfMoves.add(c);
     }
 

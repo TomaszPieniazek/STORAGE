@@ -1,21 +1,23 @@
+package Storage;
+
 import java.awt.*;
 import java.util.*;
-import pack.Package;
-import pack.TypesOfPackage;
-import pack.coordinates.Coordinates;
+import Storage.pack.coordinates.Coordinates;
+import Storage.pack.TypesOfPackage;
+import Storage.pack.Package;
 
 /*
  * Storage class:
     -only one instance of Storage
     -attributes width, length and height are defining size of our Storage
-    -attribute map (HashMap<Point,ArrayList<Package>>) contains List of Package objects where Point is key
+    -attribute map (HashMap<Point,ArrayList<Package>>) contains Lists of Package objects where Point is key
  */
 public class Storage {
     private static Storage instance= null;
     private int width;
     private int length;
     private int height;
-    public Map<Point, ArrayList<Package>> map;
+    private Map<Point, ArrayList<Package>> map;
     private Random random = new Random();
 
     /*
@@ -31,7 +33,7 @@ public class Storage {
     /*
      *method getInstance provides that there is only one instance of our Storage
      */
-    static Storage getInstance(int x, int y, int z){
+    public static Storage getInstance(int x, int y, int z){
         if (instance==null){
             instance=new Storage(x,y,z);
             for(int i=1;i<=x;i++){
@@ -51,7 +53,7 @@ public class Storage {
      */
     public boolean putPackage(int a, int b, Package p) {
         boolean result= false;
-       if ( (map.get(new Point(a, b)).isEmpty()) || (this.map.get(new Point(a,b)).size()<this.height && map.get(new Point(a,b)).get(this.map.get(new Point(a,b)).size()-1).getPriority()<= p.getPriority()) ){
+       if ( (this.map.get(new Point(a, b)).isEmpty()) || (this.map.get(new Point(a,b)).size()<this.height && map.get(new Point(a,b)).get(this.map.get(new Point(a,b)).size()-1).getPriority()<= p.getPriority()) ){
             p.setCoordinates(a,b,this.map.get(new Point(a,b)).size());
             p.setMoves(p.getMoves()+1);
             map.get(new Point(a,b)).add(p);
@@ -92,7 +94,7 @@ public class Storage {
      */
     private void moveWhatIsAbove(Coordinates c){
         int result = ((this.map.get(new Point(c.getW(),c.getL())).size())-((c.getH())+1));
-        int ran1=-1, ran2=-1;
+        int ran1, ran2;
         while(result>0){
             Package p =this.map.get(new Point(c.getW(),c.getL())).get(((c.getH())+result));
             this.map.get(new Point(c.getW(),c.getL())).remove(p.getCoordniates().getH());
@@ -114,23 +116,59 @@ public class Storage {
      *method returns Package we are looking for or null if Package does not exist
      */
     public Package getPackageByNumber(int n) {
-        Package p=null;
+        Package p;
         Coordinates c= this.findPackageByNumber(n);
         if(c.areCordsProper()) {
             this.moveWhatIsAbove(c);
             p = this.map.get(new Point(c.getW(), c.getL())).get(this.map.get(new Point(c.getW(), c.getL())).size() - 1);
             this.map.get(new Point(c.getW(), c.getL())).remove((this.map.get(new Point(c.getW(), c.getL())).size() - 1));
+        }else throw new NoSuchElementException("there is no Package with that number");
+        return p;
+    }
+
+    /*
+     *parameter t defines type of packages we are looking for
+     *method runs through all Storage and remembers numbers of packages with type t
+     *returns array of integers with package numbers inside
+     */
+    private ArrayList<Integer> findPackagesByType(TypesOfPackage t){
+        ArrayList<Integer> numbers = new ArrayList<>();
+        for(int i = 1; i<=this.width; i++){
+            for(int j = 1; j<=this.length; j++) {
+                for(int k=0;k<this.map.get(new Point(i, j)).size();k++){
+                    if(this.map.get(new Point(i, j)).get(k).getType()==t){
+                        numbers.add(this.map.get(new Point(i,j)).get(k).getNumber());
+                    }
+                }}}
+        return numbers;
+    }
+
+    /*
+     *parameter t defines type of packages we are looking for
+     *we use method findPackagesByType to get numbers of all packages with type t
+     *when we have those numbers we use method getPackageByNumber
+     *returns ArrayList of Packages
+     */
+    public ArrayList<Package> getPackagesByType(TypesOfPackage t){
+        ArrayList<Package> p= new ArrayList<>();
+        ArrayList<Integer> numbers = this.findPackagesByType(t);
+        while(!numbers.isEmpty()){
+            p.add(this.getPackageByNumber(numbers.get((numbers.size()-1))));
+            numbers.remove((numbers.size()-1));
         }
         return p;
     }
 
     /*
+     *parameter n defines number of Package we want to get
      *this method returns history of Coordinates of our Package
      */
     public void getHistoryOfOnePackage(int n){
         Coordinates c= this.findPackageByNumber(n);
-        System.out.print("\nHISTORY OF MOVES OF PACKAGE NR"+n+": ");
-        System.out.print(this.map.get(new Point(c.getW(), c.getL())).get(c.getH()).getHistoryOfMoves().toString());
+        if(c.areCordsProper()) {
+            System.out.print("\nHISTORY OF MOVES OF PACKAGE NR" + n + ": ");
+            System.out.print(this.map.get(new Point(c.getW(), c.getL())).get(c.getH()).getHistoryOfMoves().toString());
+        }else throw new NoSuchElementException("There is no package with this number");
     }
 
 
@@ -139,13 +177,16 @@ public class Storage {
      */
     public void randomizeStorage() {
         int counter=0;
-        while(counter <((this.width *this.length *this.height)*2/3)){
-           if((this.putPackage(random.nextInt(this.width) + 1, random.nextInt(this.length) + 1, new Package(TypesOfPackage.guns, "lolololololo" + counter, counter, random.nextInt(5) + 1)))){
+        while(counter <((this.width *this.length *this.height)/2)){
+           if((this.putPackage(random.nextInt(this.width) + 1, random.nextInt(this.length) + 1, new Package(TypesOfPackage.guns, "lolololololo" + counter, counter+6, random.nextInt(5) + 1)))){
                counter++;
            }
         }
     }
 
+    /*
+     *toString method
+     */
     @Override
     public String toString() {
         return "\nStorage{" +
@@ -153,6 +194,9 @@ public class Storage {
                 '}';
     }
 
+    /*
+     *basically toString method xd
+     */
     public void getStatusOfStorage(){
         System.out.print(this.toString());
     }

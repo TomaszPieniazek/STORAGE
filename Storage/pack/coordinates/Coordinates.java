@@ -1,4 +1,4 @@
-package pack.coordinates;
+package Storage.pack.coordinates;
 
 public class Coordinates {
     private int w;
