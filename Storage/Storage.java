@@ -76,7 +76,9 @@ public class Storage {
                 for(int k=0;k<this.map.get(new Point(i, j)).size();k++){
                     if(this.map.get(new Point(i, j)).get(k).getNumber()==n){
                         found.setCoordinatesWLH(i,j,k);
-                        break;
+
+                        return found;
+
                  }
                 }}}
                 return found;
@@ -99,9 +101,10 @@ public class Storage {
             Package p =this.map.get(new Point(c.getW(),c.getL())).get(((c.getH())+result));
             this.map.get(new Point(c.getW(),c.getL())).remove(p.getCoordniates().getH());
             do {
+                do{
                  ran1 = random.nextInt(this.width) + 1;
-                 ran2 = random.nextInt(this.length) + 1;
-            }while((p.getCoordniates().getW()!=ran1 || p.getCoordniates().getL()!=ran2) && !this.putPackage(ran1, ran2, p));
+                 ran2 = random.nextInt(this.length) + 1;}while((ran1 == 1) && (ran2 == 1));
+            }while( !this.putPackage(ran1, ran2, p));
             result--;
         }
     }
@@ -115,7 +118,7 @@ public class Storage {
      *remove Package with number n from ArrayList
      *method returns Package we are looking for or null if Package does not exist
      */
-    public Package getPackageByNumber(int n) {
+    public  Package getPackageByNumber(int n) {
         Package p;
         Coordinates c= this.findPackageByNumber(n);
         if(c.areCordsProper()) {
@@ -175,12 +178,26 @@ public class Storage {
     /*
      *this method fills our Storage with some random packages
      */
+
+    //((this.width *this.length *this.height) - ((2*this.height) -2))   ((this.width *this.length *this.height)/2))
     public void randomizeStorage() {
-        int counter=0;
-        while(counter <((this.width *this.length *this.height)/2)){
-           if((this.putPackage(random.nextInt(this.width) + 1, random.nextInt(this.length) + 1, new Package(TypesOfPackage.guns, "lolololololo" + counter, counter+6, random.nextInt(5) + 1)))){
-               counter++;
+        int counter=0,ran1=random.nextInt(this.width) + 1, ran2=random.nextInt(this.length) + 1;
+        while(counter <((this.width *this.length *this.height)/1.8) ){
+            Package pom=new Package(TypesOfPackage.guns, "lolololololo" + counter, counter+6, random.nextInt(3) + 1);
+            while(!this.putPackage(ran1, ran2, pom)){
+                ran1=random.nextInt(this.width) + 1;
+                ran2=random.nextInt(this.length) + 1;
            }
+            counter++;
+        }
+    }
+
+    public void oldRandomizeStorage() {
+        int counter=0;
+        while(counter <((this.width *this.length *this.height) - ((2*this.height) +15))){
+            if((this.putPackage(random.nextInt(this.width) + 1, random.nextInt(this.length) + 1, new Package(TypesOfPackage.guns, "lolololololo" + counter, counter+6, random.nextInt(5) + 1)))){
+                counter++;
+            }
         }
     }
 
@@ -199,5 +216,21 @@ public class Storage {
      */
     public void getStatusOfStorage(){
         System.out.print(this.toString());
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getLength() {
+        return length;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public Map<Point, ArrayList<Package>> getMap() {
+        return map;
     }
 }
