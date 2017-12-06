@@ -33,11 +33,11 @@ public class Main {
         s.getStatusOfStorage();
 
         //TESTING METHOD getPackageByNumber
-           // Package p = s.getPackageByNumber(1);
-           // System.out.print("\n" + p.toString());
+          //  Package p = s.getPackageByNumber(1);
+         //   System.out.print("\n" + p.toString());
        // p = s.getPackageByNumber(2);
         //System.out.print("\n" + p.toString());
-           // s.getStatusOfStorage();
+          //  s.getStatusOfStorage();
 
         //TESTING METHOD getHistoryOfPackage
            // s.getHistoryOfOnePackage(44);

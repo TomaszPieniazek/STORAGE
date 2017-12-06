@@ -182,7 +182,7 @@ public class Storage {
     //((this.width *this.length *this.height) - ((2*this.height) -2))   ((this.width *this.length *this.height)/2))
     public void randomizeStorage() {
         int counter=0,ran1=random.nextInt(this.width) + 1, ran2=random.nextInt(this.length) + 1;
-        while(counter <((this.width *this.length *this.height)/1.8) ){
+        while(counter <((this.width *this.length *this.height)/3) ){
             Package pom=new Package(TypesOfPackage.guns, "lolololololo" + counter, counter+6, random.nextInt(3) + 1);
             while(!this.putPackage(ran1, ran2, pom)){
                 ran1=random.nextInt(this.width) + 1;
