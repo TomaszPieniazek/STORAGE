@@ -27,27 +27,27 @@ public class Main {
             s.putPackage(1, 1, d);
             s.putPackage(1, 1, e);
 
-          s.randomizeStorage();
+         // s.randomizeStorage();
 
 
         s.getStatusOfStorage();
 
         //TESTING METHOD getPackageByNumber
-          //  Package p = s.getPackageByNumber(1);
-         //   System.out.print("\n" + p.toString());
+            Package p = s.getPackageByNumber(1);
+            System.out.print("\n" + p.toString());
        // p = s.getPackageByNumber(2);
         //System.out.print("\n" + p.toString());
-          //  s.getStatusOfStorage();
+            s.getStatusOfStorage();
 
         //TESTING METHOD getHistoryOfPackage
            // s.getHistoryOfOnePackage(44);
 
         //TESTING METHOD getPackagesByType
-            ArrayList<Package> alp = s.getPackagesByType(guns);
-            System.out.print("\n*********************\n" + alp.toString()+"\n**************\n");
+         //   ArrayList<Package> alp = s.getPackagesByType(guns);
+         //   System.out.print("\n*********************\n" + alp.toString()+"\n**************\n");
 
         //TESTING METHOD getStatusOfStorage;
-            s.getStatusOfStorage();
+        //    s.getStatusOfStorage();
 
         }
 
